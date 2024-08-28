@@ -3,11 +3,13 @@ import tkinter as tk
 
 client = freecurrencyapi.Client('fca_live_zhgKbiCo5Jq57Enxbfl2OwlfTHfNoSmvcHBa4Noo')
 
-def get_exchange_rate(cur_name):
+def get_currency_names():
     result = client.latest()
-    exchange_rate = result['data'][cur_name]
-    return exchange_rate
-
+    data = result['data']
+    names = []
+    for key in data:
+        names.append(key)
+    return names
 
 def dropdown_from_currency_changed(var, index, mode):
     print("dropdown_from_currency_changed")
@@ -24,9 +26,8 @@ def callback(self, P):
     else:
         return False
 
-def button_click():
-    l2.config(text=get_exchange_rate(e1.get()))
-
+options = get_currency_names()
+# UI
 mainWindow = tk.Tk()
 mainWindow.title('Währungsrechner')
 mainWindow.geometry('300x300')
