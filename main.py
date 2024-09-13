@@ -18,22 +18,23 @@ def dropdown_to_currency_changed(var, index, mode):
     print("dropdown_to_currency_changed")
 
 
-
-
-def callback(self, P):
-    if str.isdigit(P) or P == "" or P == ".":
+# Funktion zum validieren der Eingaben
+def validate_input(P):
+    if str.isdigit(P) or str(P) == "" or str(P) == ".":
         return True
     else:
         return False
 
-options = get_currency_names()
-# UI
+
+# Main Window Ui Stuff
 mainWindow = tk.Tk()
 mainWindow.title('Währungsrechner')
 mainWindow.geometry('300x300')
 
-vcmd = (mainWindow.register(callback))
+vcmd = (mainWindow.register(validate_input))
 
+# Die Optionen für die Dropdowns
+options = get_currency_names()
 
 # Erstes Dropdown
 dropdown_from_currency_clicked = tk.StringVar()
@@ -50,13 +51,14 @@ dropdown_to_currency = tk.OptionMenu(mainWindow, dropdown_to_currency_clicked, *
 dropdown_to_currency.grid(row=0, column=2)
 
 # Erstes Eingabefeld
-input_from_currency = tk.Entry(mainWindow)
+input_from_currency = tk.Entry(mainWindow, validate='all', validatecommand=(vcmd, '%P'))
 input_from_currency.grid(row=1, column=0)
+
 
 
 # Zweites Eingabefeld
 input_to_currency = tk.Entry(mainWindow , validate='all', validatecommand=(vcmd, '%P'))
-
 input_to_currency.grid(row=1, column=2)
 
+# Start Main Loop
 mainWindow.mainloop()
